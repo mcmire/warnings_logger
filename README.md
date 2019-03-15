@@ -35,6 +35,17 @@ WarningsLogger::Spy.call(
 )
 ```
 
+We also recommend you run your tests by enabling warnings in general. For RSpec
+this means updating the RSpec::Core::RakeTask by setting `config.warnings =
+true` and setting `$VERBOSE = true` in your spec helper. For Minitest, this
+means updating your Rake::Task::TestTask by setting `t.verbose = true` and
+setting `$VERBOSE = true` in your test helper.
+
+With the above code in place, now when you run your tests, if your gem emits any
+warnings, they will be written to a file (which is printed to your terminal) and
+the exit code of the test run will be 1. This helps you ensure that your gem is
+warning-free before you release a new version.
+
 ## Developing
 
 * `bin/setup` to get started
