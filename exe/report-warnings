@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/warnings_logger/cli"
+
+WarningsLogger::CLI.call(ARGV)

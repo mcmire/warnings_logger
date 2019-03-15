@@ -1,0 +1,6 @@
+require_relative "warnings_logger/configuration"
+require_relative "warnings_logger/filesystem"
+require_relative "warnings_logger/partitioner"
+require_relative "warnings_logger/reader"
+require_relative "warnings_logger/reporter"
+require_relative "warnings_logger/spy"
