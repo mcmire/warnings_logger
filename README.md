@@ -1,35 +1,46 @@
-# WarningsSpy
+# Warnings Logger
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/warnings_spy`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Easily log warnings in your gems.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your gem's gemspec:
 
 ```ruby
-gem 'warnings_spy'
+spec.add_development_dependency('warnings_logger')
 ```
 
-And then execute:
+If you have a Gemfile, run:
 
-    $ bundle
+``` bash
+bundle install
+```
 
-Or install it yourself as:
+Or, install the gem yourself:
 
-    $ gem install warnings_spy
+``` bash
+gem install warnings_logger
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+To use this gem, place the following in `spec/spec_helper.rb` or
+`test/test_helper.rb`, replacing `<project name>` with the name of the gem
+you're developing:
 
-## Development
+``` ruby
+WarningsLogger::Spy.call(
+  project_name: '<project name>',
+  project_directory: Pathname.new('../..').expand_path(__FILE__),
+)
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+## Developing
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+* `bin/setup` to get started
+* `bundle exec rake release` to release a new version
 
-## Contributing
+## Author/License
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/warnings_spy.
+Snowglobe is © 2019 Elliot Winkler (<elliot.winkler@gmail.com>) and is released
+under the [MIT license](LICENSE).
