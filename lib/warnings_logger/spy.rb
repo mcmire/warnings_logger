@@ -15,12 +15,12 @@ module WarningsLogger
       @reader = Reader.new(filesystem)
       @partitioner = Partitioner.new(
         configuration: configuration,
-        reader: reader,
+        reader: reader
       )
       @reporter = Reporter.new(
         configuration: configuration,
         filesystem: filesystem,
-        partitioner: partitioner,
+        partitioner: partitioner
       )
 
       @original_stderr = nil
@@ -38,8 +38,11 @@ module WarningsLogger
 
     def_delegators :filesystem, :warnings_file
 
-    def_delegators :partitioner, :relevant_warning_groups,
+    def_delegators(
+      :partitioner,
+      :relevant_warning_groups,
       :irrelevant_warning_groups
+    )
 
     def capture_warnings
       @original_stderr = $stderr.dup
@@ -51,12 +54,12 @@ module WarningsLogger
     end
 
     def report_warnings_after_tests_run
-      _self = self
+      spy = self
 
-      if defined?(RSpec)
+      if should_integrate_with_rspec?
         RSpec.configure do |config|
           config.after(:suite) do
-            _self.instance_eval do
+            spy.instance_eval do
               release_warnings
               printing_exceptions do
                 report_and_possibly_fail
@@ -64,7 +67,7 @@ module WarningsLogger
             end
           end
         end
-      elsif defined?(Minitest) && Minitest.class_variable_get("@@installed_at_exit")
+      elsif should_integrate_with_minitest?
         Minitest.after_run do
           release_warnings
           printing_exceptions do
@@ -110,6 +113,14 @@ module WarningsLogger
     def print_warnings
       filesystem.warnings_file.rewind
       puts filesystem.warnings_file.read
+    end
+
+    def should_integrate_with_rspec?
+      defined?(RSpec)
+    end
+
+    def should_integrate_with_minitest?
+      defined?(Minitest) && Minitest.class_variable_get("@@installed_at_exit")
     end
   end
 end

@@ -6,7 +6,7 @@ module WarningsLogger
 
     def initialize(configuration)
       @temporary_directory = ROOT_TEMPORARY_DIRECTORY.join(
-        configuration.project_name,
+        configuration.project_name
       )
       @files_by_name = Hash.new do |hash, name|
         hash[name] = file_for(name)

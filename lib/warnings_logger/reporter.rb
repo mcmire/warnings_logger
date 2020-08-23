@@ -23,11 +23,18 @@ module WarningsLogger
 
     def_delegators :configuration, :project_name
 
-    def_delegators :filesystem, :warnings_file,
-      :relevant_warnings_file, :irrelevant_warnings_file
+    def_delegators(
+      :filesystem,
+      :warnings_file,
+      :relevant_warnings_file,
+      :irrelevant_warnings_file
+    )
 
-    def_delegators :partitioner, :relevant_warning_groups,
+    def_delegators(
+      :partitioner,
+      :relevant_warning_groups,
       :irrelevant_warning_groups
+    )
 
     def reporting_all_groups
       if relevant_warning_groups.any? || irrelevant_warning_groups.any?
@@ -50,7 +57,7 @@ module WarningsLogger
         print_divider("-", 75)
         warn(
           "#{project_name} warnings written to " +
-          "#{relevant_warnings_file.path}.",
+          "#{relevant_warnings_file.path}."
         )
       end
     end
@@ -64,7 +71,7 @@ module WarningsLogger
         end
         warn(
           "Non #{project_name} warnings were raised during the test run. " +
-          "These have been written to #{irrelevant_warnings_file.path}.",
+          "These have been written to #{irrelevant_warnings_file.path}."
         )
       end
     end
