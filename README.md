@@ -53,5 +53,5 @@ is warning-free before you release a new version.
 
 ## Author/License
 
-Snowglobe is © 2019 Elliot Winkler (<elliot.winkler@gmail.com>) and is released
-under the [MIT license](LICENSE).
+Snowglobe is © 2019-2020 Elliot Winkler (<elliot.winkler@gmail.com>) and is
+released under the [MIT license](LICENSE).
