@@ -3,9 +3,8 @@ require "forwardable"
 module WarningsLogger
   # Adapted from <http://myronmars.to/n/dev-blog/2011/08/making-your-gem-warning-free>
   class Spy
-    def self.call(**args)
-      configuration = Configuration.new(**args)
-      new(configuration).call
+    def self.enable(configuration)
+      new(configuration).enable
     end
 
     extend Forwardable
@@ -26,7 +25,7 @@ module WarningsLogger
       @original_stderr = nil
     end
 
-    def call
+    def enable
       filesystem.prepare
       capture_warnings
       report_warnings_after_tests_run

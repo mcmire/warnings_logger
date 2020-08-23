@@ -2,12 +2,8 @@ require "fileutils"
 
 module WarningsLogger
   class Filesystem
-    ROOT_TEMPORARY_DIRECTORY = Pathname.new("/tmp/warnings_logger")
-
     def initialize(configuration)
-      @temporary_directory = ROOT_TEMPORARY_DIRECTORY.join(
-        configuration.project_name
-      )
+      @configuration = configuration
       @files_by_name = Hash.new do |hash, name|
         hash[name] = file_for(name)
       end
@@ -35,7 +31,7 @@ module WarningsLogger
 
     private
 
-    attr_reader :temporary_directory, :files_by_name
+    attr_reader :configuration, :files_by_name
 
     def file_for(name)
       path_for(name).open("w+")
@@ -43,6 +39,10 @@ module WarningsLogger
 
     def path_for(name)
       temporary_directory.join("#{name}.txt")
+    end
+
+    def temporary_directory
+      configuration.project_directory.join("tmp/warnings_logger")
     end
   end
 end

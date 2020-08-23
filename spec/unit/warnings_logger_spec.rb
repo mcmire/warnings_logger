@@ -8,11 +8,13 @@ RSpec.describe WarningsLogger::Spy do
       @project = Snowglobe::RSpecProject.create
 
       project.write_file("spec/spec_helper.rb", <<~FILE)
-        require "#{File.expand_path("../../lib/warnings_logger.rb", __dir__)}"
-        WarningsLogger::Spy.call(
-          project_name: "example",
-          project_directory: "#{project.directory}"
-        )
+        $:.unshift("#{Pathname.new("../../lib").expand_path(__dir__)}")
+        require "warnings_logger"
+        WarningsLogger.configure do |config|
+          config.project_name = "example"
+          config.project_directory = "#{project.directory}"
+        end
+        WarningsLogger.enable
 
         require "example"
 
@@ -65,18 +67,6 @@ RSpec.describe WarningsLogger::Spy do
           end
         FILE
 
-        project.write_file("spec/spec_helper.rb", <<~FILE)
-          require "#{File.expand_path("../../lib/warnings_logger.rb", __dir__)}"
-          WarningsLogger::Spy.call(
-            project_name: "example",
-            project_directory: "#{project.directory}"
-          )
-
-          require "example"
-
-          $VERBOSE = true
-        FILE
-
         project.write_file("spec/example_spec.rb", <<~FILE)
           require "spec_helper"
 
@@ -92,8 +82,8 @@ RSpec.describe WarningsLogger::Spy do
 #{project.directory}/lib/example.rb:3: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
 #{project.directory}/lib/example.rb:8: warning: The called method `call' is defined here
 ---------------------------------------------------------------------------
-example warnings written to /tmp/warnings_logger/example/relevant_warnings.txt.
-All warnings were written to /tmp/warnings_logger/example/all_warnings.txt.
+example warnings written to #{project.directory}/tmp/warnings_logger/relevant_warnings.txt.
+All warnings were written to #{project.directory}/tmp/warnings_logger/all_warnings.txt.
         STDERR
         expect(project.run_rspec_tests).to have_run_with(
           exit_status: 1,
@@ -112,11 +102,13 @@ All warnings were written to /tmp/warnings_logger/example/all_warnings.txt.
       project.write_file("test/test_helper.rb", <<~FILE)
         require "minitest/autorun"
 
-        require "#{File.expand_path("../../lib/warnings_logger.rb", __dir__)}"
-        WarningsLogger::Spy.call(
-          project_name: "example",
-          project_directory: "#{project.directory}"
-        )
+        $:.unshift("#{Pathname.new("../../lib").expand_path(__dir__)}")
+        require "warnings_logger"
+        WarningsLogger.configure do |config|
+          config.project_name = "example"
+          config.project_directory = "#{project.directory}"
+        end
+        WarningsLogger.enable
 
         require "example"
 
@@ -182,8 +174,8 @@ All warnings were written to /tmp/warnings_logger/example/all_warnings.txt.
 #{project.directory}/lib/example.rb:3: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
 #{project.directory}/lib/example.rb:8: warning: The called method `call' is defined here
 ---------------------------------------------------------------------------
-example warnings written to /tmp/warnings_logger/example/relevant_warnings.txt.
-All warnings were written to /tmp/warnings_logger/example/all_warnings.txt.
+example warnings written to #{project.directory}/tmp/warnings_logger/relevant_warnings.txt.
+All warnings were written to #{project.directory}/tmp/warnings_logger/all_warnings.txt.
         STDERR
         expect(project.run_n_unit_tests("test/example_test.rb"))
           .to have_run_with(
