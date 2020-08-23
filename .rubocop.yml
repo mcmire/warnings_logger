@@ -80,12 +80,16 @@ Naming/PredicateName:
     - spec/**/*
 Naming/MethodParameterName:
   Enabled: false
+Naming/RescuedExceptionsVariableName:
+  Enabled: false
 Style/AccessModifierDeclarations:
   Enabled: false
 Style/Alias:
   Enabled: false
 Style/BlockDelimiters:
   EnforcedStyle: braces_for_chaining
+Style/CaseEquality:
+  Enabled: false
 Style/CollectionMethods:
   Enabled: true
 Style/Documentation:
