@@ -3,6 +3,17 @@ require "forwardable"
 module WarningsLogger
   # Adapted from <http://myronmars.to/n/dev-blog/2011/08/making-your-gem-warning-free>
   class Spy
+    # DEPRECATED
+    def self.call(**options)
+      WarningsLogger.configure do |config|
+        options.each do |key, value|
+          config.public_send("#{key}=", value)
+        end
+      end
+
+      WarningsLogger.enable
+    end
+
     def self.enable(configuration)
       new(configuration).enable
     end
