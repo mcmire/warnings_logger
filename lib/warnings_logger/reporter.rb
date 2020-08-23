@@ -38,16 +38,16 @@ module WarningsLogger
 
     def reporting_all_groups
       if relevant_warning_groups.any? || irrelevant_warning_groups.any?
-        warn
+        warn ""
         yield
         warn "All warnings were written to #{warnings_file.path}."
-        warn
+        warn ""
       end
     end
 
     def report_relevant_warning_groups
       if relevant_warning_groups.any?
-        print_divider("-", 75, header: " #{project_name} warnings:")
+        print_divider("-", 75, header: " #{project_name} warnings: ")
         relevant_warning_groups.each do |group|
           group.each do |line|
             relevant_warnings_file.puts(line)
@@ -81,7 +81,7 @@ module WarningsLogger
 
       if options[:header]
         first_count = 10
-        second_count = options[:header].length - first_count
+        second_count = count - options[:header].length - first_count
         string =
           horizontal_rule(character, first_count) +
           options[:header] +

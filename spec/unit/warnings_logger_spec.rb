@@ -78,7 +78,7 @@ RSpec.describe WarningsLogger::Spy do
         FILE
 
         expected_stderr = <<-STDERR
----------- example warnings:--------
+---------- example warnings: ----------------------------------------------
 #{project.directory}/lib/example.rb:3: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
 #{project.directory}/lib/example.rb:8: warning: The called method `call' is defined here
 ---------------------------------------------------------------------------
@@ -170,7 +170,7 @@ All warnings were written to #{project.directory}/tmp/warnings_logger/all_warnin
         FILE
 
         expected_stderr = <<-STDERR
----------- example warnings:--------
+---------- example warnings: ----------------------------------------------
 #{project.directory}/lib/example.rb:3: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
 #{project.directory}/lib/example.rb:8: warning: The called method `call' is defined here
 ---------------------------------------------------------------------------
